@@ -1,0 +1,33 @@
+{
+    "CmajorVersion":    1,
+    "ID":               "com.your_name.your_patch_ID",
+    "version":          "1.0",
+    "name":             "technoDrums",
+    "description":      "technoDrums",
+    "category":         "generator",
+    "manufacturer":     "Your Company Goes Here",
+    "isInstrument":     true,
+
+    "source":           "technoDrums.cmajor",
+    
+    "externals":
+    {
+        "technoDrums::samples": [
+            { "source": "DF_TechnoKick_001.wav", "note": 36 },
+            { "source": "DF_TechnoKick_002.wav", "note": 37 },
+            { "source": "DF_TechnoKick_003.wav", "note": 38 },
+            { "source": "DF_TechnoKick_004.wav", "note": 39 },
+            { "source": "DF_TechnoKick_005.wav", "note": 40 },
+            { "source": "DF_TechnoKick_006.wav", "note": 41 },
+            { "source": "DF_TechnoKick_007.wav", "note": 42 },
+            { "source": "DF_TechnoKick_008.wav", "note": 43 },
+            { "source": "DF_TechnoKick_009.wav", "note": 44 },
+            { "source": "DF_TechnoKick_010.wav", "note": 45 },
+            { "source": "DF_TechnoKick_011.wav", "note": 46 },
+            { "source": "DF_TechnoKick_012.wav", "note": 47 },
+            { "source": "DF_TechnoKick_013.wav", "note": 48 },
+            { "source": "DF_TechnoKick_014.wav", "note": 49 },
+            { "source": "DF_TechnoKick_015.wav", "note": 50 }
+        ]
+    }
+}

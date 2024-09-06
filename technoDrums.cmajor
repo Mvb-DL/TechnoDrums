@@ -1,0 +1,76 @@
+
+namespace technoDrums
+{
+
+graph technoDrums [[main]]
+{
+    input event std::midi::Message midiIn;
+    input gain.volume;
+    output stream float out;
+
+    const int numVoices = 15;
+
+    node gain = std::levels::SmoothedGain (float, 0.1f);
+    node voices = Voice[numVoices];
+
+    connection midiIn
+                    -> std::midi::MPEConverter
+                    -> std::voices::VoiceAllocator(numVoices)
+                    -> voices
+                    -> gain.in;
+
+    connection gain -> out;
+    }
+
+
+graph Voice
+    {
+        output stream float out;
+        input event (std::notes::NoteOn, std::notes::NoteOff) eventIn;
+
+        node
+        {
+            envelope     = std::envelopes::FixedASR (0.0f, 0.3f);
+            attenuator   = std::levels::DynamicGain (float);
+            noteSelector = NoteSelector;
+            samplePlayer = std::audio_data::SamplePlayer (TechDrumSample::source);
+        }
+
+        connection
+        {
+            eventIn -> noteSelector -> samplePlayer.content;
+            samplePlayer -> attenuator.in;
+            eventIn -> envelope -> attenuator.gain;
+            attenuator -> out;
+        }
+    }
+
+processor NoteSelector
+    {
+        input event std::notes::NoteOn eventIn;
+        output event TechDrumSample::source content;
+
+        event eventIn (std::notes::NoteOn e)
+        {
+            for (wrap<samples.size> i)
+            {
+                if (samples[i].note == roundToInt (e.pitch))
+                {
+                    content <- samples[i].source;
+                    break;
+                }
+            }
+        }
+    }
+
+
+struct TechDrumSample
+    {
+        std::audio_data::Mono source;
+        int note;
+    }
+
+    external TechDrumSample[15] samples;
+}
+
+
